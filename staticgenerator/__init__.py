@@ -18,7 +18,6 @@ from django.db.models import Model
 from django.db.models.query import QuerySet
 from django.conf import settings
 from django.test.client import RequestFactory
-from django.utils.http import urlquote
 from handlers import DummyHandler
 
 
@@ -105,8 +104,8 @@ class StaticGenerator(object):
         from staticgenerator import quick_publish
         quick_publish('/', Post.objects.live(), FlatPage)
 
-    The class accepts a list of 'resources' which can be any of the 
-    following: URL path (string), Model (class or instance), Manager, or 
+    The class accepts a list of 'resources' which can be any of the
+    following: URL path (string), Model (class or instance), Manager, or
     QuerySet.
 
     As of v1.1, StaticGenerator includes file and path deletion::
@@ -161,11 +160,12 @@ class StaticGenerator(object):
         return extracted
 
     def get_server_name(self):
-        '''Tries to get the server name.
+        """
+        Tries to get the server name.
         First we look in the django settings.
         If it's not found we try to get it from the current Site.
         Otherwise, return "localhost".
-        '''
+        """
         try:
             return getattr(settings, 'SERVER_NAME')
         except:
@@ -221,12 +221,10 @@ class StaticGenerator(object):
             # Always include a %3F in the file name, even if there are no query
             # parameters.  Using %3F instead of a question mark makes rewriting
             # possible in Apache.  Always including it makes rewriting easier.
-            path = '%sindex.html%%3F' % path
+            path = '%sindex.html?' % path
         # will not work on windows... meh
         if query_string:
-            # BingBot makes broken queries with non-ASCII query parameters
-            # -> # urlquote
-            path += urlquote(query_string)
+            path += query_string
         if is_ajax:
             # Append an ',ajax' suffix to the file name for AJAX requests.
             # This makes it possible to cache responses which have different
