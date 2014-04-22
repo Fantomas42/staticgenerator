@@ -221,7 +221,7 @@ class StaticGenerator(object):
             # Always include a %3F in the file name, even if there are no query
             # parameters.  Using %3F instead of a question mark makes rewriting
             # possible in Apache.  Always including it makes rewriting easier.
-            path = '%sindex.html?' % path
+            path = '%sindex.html%%3F' % path
         # will not work on windows... meh
         if query_string:
             path += query_string
